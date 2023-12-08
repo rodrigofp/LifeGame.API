@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: skills-depl
+spec:
+    replicas: 1
+    selector: 
+        matchLabels:
+            app: skillservice
+    template:
+        metadata:
+            labels:
+                app: skillservice
+        spec:
+            containers:
+              - name: skillservice
+                image: rodrigofp26/skillservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: skills-clusterip-srv
+spec:
+    type: ClusterIP
+    selector:
+        app: skillservice
+    ports:
+      - name: skillservice
+        protocol: TCP
+        port: 80
+        targetPort: 80
