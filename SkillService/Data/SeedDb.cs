@@ -9,14 +9,12 @@ namespace SkillService.Data
 		private const int MAX_LEVEL = 50;
 		private const int INITIAL_EXP = 10;
 
-		public static void Seed(this WebApplication app, bool isProduction)
+		public static void Seed(this WebApplication app)
 		{
 			using var serviceScope = app.Services.CreateScope();
 			var db = serviceScope.ServiceProvider.GetRequiredService<SkillDbContext>();
-			
-			if (isProduction)
-				Migrate(db);
 
+			Migrate(db);
 			SeedData(db);
 		}
 
@@ -43,7 +41,7 @@ namespace SkillService.Data
 		private static void SeedUser(DbSet<User> users)
 		{
 			if (users.Any()) return;
-			
+
 			users.Add(new User()
 			{
 				Name = "Shad",

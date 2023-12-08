@@ -5,19 +5,12 @@ namespace SkillService.Configurations
 {
 	public static class DatabaseConfiguration
 	{
-		public static void ConfigureDb(this IServiceCollection services, string connection, bool isProduction)
+		public static void ConfigureDb(this IServiceCollection services, string connection)
 		{
-			if (isProduction)
-				services.AddDbContext<SkillDbContext>(opt =>
-				{
-					opt.UseSqlServer(connection);
-				});
-
-			else
-				services.AddDbContext<SkillDbContext>(opt =>
-				{
-					opt.UseInMemoryDatabase("InMem");
-				});
+			services.AddDbContext<SkillDbContext>(opt =>
+			{
+				opt.UseSqlServer(connection);
+			});
 		}
 	}
 }

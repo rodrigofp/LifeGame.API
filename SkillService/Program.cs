@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SkillService.Configurations;
 using SkillService.Data;
-using SkillService.SyncServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.ConfigureDb(builder.Configuration.GetConnectionString("SkillsConn"), builder.Environment.IsProduction());
+builder.Services.ConfigureDb(builder.Configuration.GetConnectionString("SkillsConn"));
 builder.Services.AddServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpClient<IQuestClient, QuestClient>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Seed(app.Environment.IsProduction());
+app.Seed();
 
 app.Run();

@@ -8,5 +8,10 @@ namespace QuestsService.Repositories
 		public SkillRepository(QuestDbContext db) : base(db)
 		{
 		}
+
+		public bool ExternalSkillIdExists(int externalId)
+		{
+			return _db.Skills.Any(s => s.ExternalId ==  externalId);
+		}
 	}
 }

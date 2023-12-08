@@ -9,6 +9,9 @@ namespace QuestsService.Profiles
 		public SkillProfile()
 		{
 			CreateMap<Skill, SkillReadDTO>();
+			CreateMap<SkillPublishedDTO, Skill>()
+				.ForMember(dest => dest.ExternalId, map => map.MapFrom(src => src.Id))
+				.ForMember(dest => dest.Id, map => map.MapFrom(src => 0));
 		}
 	}
 }

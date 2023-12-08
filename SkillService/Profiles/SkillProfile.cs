@@ -10,6 +10,7 @@ namespace SkillService.Profiles
 		{
 			CreateMap<Skill, SkillReadDTO>();
 			CreateMap<SkillCreateDTO, Skill>();
+			CreateMap<SkillReadDTO, SkillPublishedDTO>();
 		}
 	}
 }

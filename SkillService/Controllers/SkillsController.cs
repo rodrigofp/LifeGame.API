@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SkillService.AsyncDataServices;
 using SkillService.Data;
 using SkillService.DTOs;
 using SkillService.Models;
-using SkillService.SyncServices;
 
 namespace SkillService.Controllers
 {
@@ -13,7 +13,7 @@ namespace SkillService.Controllers
 	{
 		private readonly ISkillRepository _skillRepository;
 		private readonly IMapper _mapper;
-		private readonly IQuestClient _questClient;
+		private readonly IMessageBusClient _messageBusClient;
 		private readonly int _userDefaultId;
 		private readonly int _levelOneDefaultId;
 
@@ -21,7 +21,7 @@ namespace SkillService.Controllers
 		{
 			_mapper = serviceProvider.GetRequiredService<IMapper>();
 			_skillRepository = serviceProvider.GetRequiredService<ISkillRepository>();
-			_questClient = serviceProvider.GetRequiredService<IQuestClient>();
+			_messageBusClient = serviceProvider.GetRequiredService<IMessageBusClient>();
 
 			var userRepository = serviceProvider.GetRequiredService<IUserRepository>();
 			_userDefaultId = userRepository.GetAll(u => u.Name == "Shad").FirstOrDefault()?.Id ?? 1;
@@ -63,7 +63,9 @@ namespace SkillService.Controllers
 
 			try
 			{
-				await _questClient.SendSkillToQuest(skillCreatedDto);
+				var skillPublishedDTO = _mapper.Map<SkillPublishedDTO>(skillCreatedDto);
+				skillPublishedDTO.Event = "Skill_Published";
+				_messageBusClient.PublishNewSkill(skillPublishedDTO);
 			}
 			catch (Exception ex)
 			{

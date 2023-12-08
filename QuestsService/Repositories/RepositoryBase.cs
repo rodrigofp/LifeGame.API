@@ -8,7 +8,7 @@ namespace QuestsService.Repositories
 	public abstract class RepositoryBase<T> : IRepository<T>
 		where T : Entity
 	{
-		private readonly QuestDbContext _db;
+		protected readonly QuestDbContext _db;
 
 		protected RepositoryBase(QuestDbContext db)
 		{
