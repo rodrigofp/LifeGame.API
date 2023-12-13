@@ -5,9 +5,11 @@ namespace SkillService.Data
 {
 	public static class SeedDb
 	{
-		private const int MIN_LEVEL = 1;
-		private const int MAX_LEVEL = 50;
-		private const int INITIAL_EXP = 10;
+		private const int INITIAL_LEVEL = 1;
+		private const int CAP_LEVEL = 100;
+		private const int BASE_EXP = 10;
+		private const decimal MULTIPLIER = 0.7M;
+		private const int CONTROL_NUMBER = 5;
 
 		public static void Seed(this WebApplication app)
 		{
@@ -40,17 +42,16 @@ namespace SkillService.Data
 		{
 			if (levelCurve.Any()) return;
 
-			var previousCurveExp = 0;
-			var currentCurveExp = 1;
-			var levelExp = INITIAL_EXP;
-			levelCurve.Add(new LevelCurve { Level = MIN_LEVEL, ExpToNextLevel = INITIAL_EXP });
-			for (int level = MIN_LEVEL + 1; level <= MAX_LEVEL; level++)
+			var exp = BASE_EXP;
+
+			for (int level = INITIAL_LEVEL; level <= CAP_LEVEL; level++)
 			{
-				var nextLevel = currentCurveExp + previousCurveExp;
-				levelExp += nextLevel;
-				previousCurveExp = currentCurveExp;
-				currentCurveExp = nextLevel;
+				var levelExp = (int) Math.Floor(exp + level * MULTIPLIER);
 				levelCurve.Add(new LevelCurve { Level = level, ExpToNextLevel = levelExp });
+				if (level > CONTROL_NUMBER)
+					exp += level - CONTROL_NUMBER;
+				else
+					exp += level;
 			}
 		}
 	}
