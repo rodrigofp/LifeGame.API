@@ -1,4 +1,6 @@
-﻿namespace SkillService.Models
+﻿using Core.Models;
+
+namespace SkillService.Models
 {
 	public class LevelCurve : Entity
 	{

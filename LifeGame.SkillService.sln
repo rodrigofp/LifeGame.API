@@ -22,6 +22,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestsService", "QuestsServ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuestService", "QuestService", "{D1653D52-C4FB-4D3D-80B5-1D1546B51040}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{D0E9523C-1CA6-49C4-A970-42A4E3CDC362}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{74CEC2D5-E40D-4093-8A24-45159692EDE4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		QuestService.Dockerfile = QuestService.Dockerfile
+		QuestService.dockerignore = QuestService.dockerignore
+		SkillService.Dockerfile = SkillService.Dockerfile
+		SkillService.dockerignore = SkillService.dockerignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +50,10 @@ Global
 		{4B7785C8-2F6C-4CC2-9005-CEC6814C862C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7785C8-2F6C-4CC2-9005-CEC6814C862C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7785C8-2F6C-4CC2-9005-CEC6814C862C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +61,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CEB6F522-1546-4082-84F5-1007F6A2847A} = {097F0722-6CC4-46BB-A49D-EF10B5004699}
 		{4B7785C8-2F6C-4CC2-9005-CEC6814C862C} = {D1653D52-C4FB-4D3D-80B5-1D1546B51040}
+		{CCB7DEC9-F4AF-4657-B16E-9F92DE8353A8} = {D0E9523C-1CA6-49C4-A970-42A4E3CDC362}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C172115A-61AA-4D40-8CF6-088C618372B0}

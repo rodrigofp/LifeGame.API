@@ -1,6 +1,7 @@
-﻿using SkillService.Data;
-using SkillService.Models;
-using SkillService.Utils;
+﻿using Core.Models;
+using Core.Repositories;
+using Core.Utils;
+using SkillService.Data;
 using System.Linq.Expressions;
 
 namespace SkillService.Repositories

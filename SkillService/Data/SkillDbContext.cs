@@ -16,14 +16,9 @@ namespace SkillService.Data
 			{
 				relationship.DeleteBehavior = DeleteBehavior.ClientNoAction;
 			}
-				
-
-			//modelBuilder.ApplyConfigurationsFromAssembly(typeof(SkillDbContext).Assembly);
 		}
 
 		public DbSet<LevelCurve> LevelCurves { get; set; }
-		//public DbSet<Reward> Rewards { get; set; }
 		public DbSet<Skill> Skills { get; set; }
-		public DbSet<User> Users { get; set; }
 	}
 }

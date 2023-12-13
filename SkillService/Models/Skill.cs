@@ -1,4 +1,6 @@
-﻿namespace SkillService.Models
+﻿using Core.Models;
+
+namespace SkillService.Models
 {
 	public class Skill : Entity
 	{
@@ -7,9 +9,6 @@
 
 		public int LevelId { get; set; }
 		public LevelCurve Level { get; set; }
-
-		public int UserId { get; set; }
-        public User User { get; set; }
 
 	}
 }

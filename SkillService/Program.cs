@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SkillService.Configurations;
 using SkillService.Data;
+using Core.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.ConfigureDb(builder.Configuration.GetConnectionString("SkillsConn"));
+builder.Services.ConfigureDb<SkillDbContext>(builder.Configuration.GetConnectionString("SkillsConn"));
 builder.Services.AddServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

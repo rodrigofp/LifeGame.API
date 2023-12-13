@@ -58,37 +58,11 @@ namespace SkillService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Skills");
-                });
-
-            modelBuilder.Entity("SkillService.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SkillService.Models.Skill", b =>
@@ -99,20 +73,7 @@ namespace SkillService.Migrations
                         .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
-                    b.HasOne("SkillService.Models.User", "User")
-                        .WithMany("Skills")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
-                        .IsRequired();
-
                     b.Navigation("Level");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SkillService.Models.User", b =>
-                {
-                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

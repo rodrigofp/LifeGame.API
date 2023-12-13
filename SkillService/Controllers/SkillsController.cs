@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Core.MessageBus;
 using Microsoft.AspNetCore.Mvc;
-using SkillService.AsyncDataServices;
 using SkillService.Data;
 using SkillService.DTOs;
 using SkillService.Models;
@@ -13,18 +13,14 @@ namespace SkillService.Controllers
 	{
 		private readonly ISkillRepository _skillRepository;
 		private readonly IMapper _mapper;
-		private readonly IMessageBusClient _messageBusClient;
-		private readonly int _userDefaultId;
+		private readonly IMessageBus _messageBus;
 		private readonly int _levelOneDefaultId;
 
 		public SkillsController(IServiceProvider serviceProvider)
 		{
 			_mapper = serviceProvider.GetRequiredService<IMapper>();
 			_skillRepository = serviceProvider.GetRequiredService<ISkillRepository>();
-			_messageBusClient = serviceProvider.GetRequiredService<IMessageBusClient>();
-
-			var userRepository = serviceProvider.GetRequiredService<IUserRepository>();
-			_userDefaultId = userRepository.GetAll(u => u.Name == "Shad").FirstOrDefault()?.Id ?? 1;
+			_messageBus = serviceProvider.GetRequiredService<IMessageBus>();
 
 			var levelCurveRepository  = serviceProvider.GetRequiredService<ILevelCurveRepository>();
 			_levelOneDefaultId = levelCurveRepository.GetAll(l => l.Level == 1)?.FirstOrDefault()?.Id ?? 1;
@@ -39,11 +35,11 @@ namespace SkillService.Controllers
 		}
 
 		[HttpGet("{id}", Name = "GetSkill")]
-		public ActionResult<SkillReadDTO> GetSkill(int id)
+		public ActionResult<SkillCardDTO> GetSkill(int id)
 		{
 			var skill = _skillRepository.GetById(id);
 
-			return Ok(_mapper.Map<SkillReadDTO>(skill));
+			return Ok(_mapper.Map<SkillCardDTO>(skill));
 		}
 
 		[HttpPost]
@@ -52,7 +48,6 @@ namespace SkillService.Controllers
 			var skill = _mapper.Map<Skill>(dto);
 
 			skill.LevelId = _levelOneDefaultId;
-			skill.UserId = _userDefaultId;
 
 			_skillRepository.Create(skill);
 
@@ -64,8 +59,7 @@ namespace SkillService.Controllers
 			try
 			{
 				var skillPublishedDTO = _mapper.Map<SkillPublishedDTO>(skillCreatedDto);
-				skillPublishedDTO.Event = "Skill_Published";
-				_messageBusClient.PublishNewSkill(skillPublishedDTO);
+				_messageBus.PublishNewMessage(skillPublishedDTO);
 			}
 			catch (Exception ex)
 			{

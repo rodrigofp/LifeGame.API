@@ -1,4 +1,5 @@
-﻿using SkillService.Models;
+﻿using Core.Repositories;
+using SkillService.Models;
 
 namespace SkillService.Data
 {

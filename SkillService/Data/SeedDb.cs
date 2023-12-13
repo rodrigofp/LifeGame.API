@@ -20,7 +20,6 @@ namespace SkillService.Data
 
 		private static void Migrate(SkillDbContext db)
 		{
-			Console.WriteLine("Attempting to apply migrations...");
 			try
 			{
 				db.Database.Migrate();
@@ -33,20 +32,8 @@ namespace SkillService.Data
 
 		private static void SeedData(SkillDbContext db)
 		{
-			SeedUser(db.Users);
 			SeedLevelCurve(db.LevelCurves);
 			db.SaveChanges();
-		}
-
-		private static void SeedUser(DbSet<User> users)
-		{
-			if (users.Any()) return;
-
-			users.Add(new User()
-			{
-				Name = "Shad",
-				Password = "123"
-			});
 		}
 
 		private static void SeedLevelCurve(DbSet<LevelCurve> levelCurve)

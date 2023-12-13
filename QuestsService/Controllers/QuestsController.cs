@@ -6,7 +6,7 @@ using QuestsService.Models;
 
 namespace QuestsService.Controllers
 {
-	[Route("api/q/skills/{skillid}/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class QuestsController : ControllerBase
 	{
@@ -24,18 +24,15 @@ namespace QuestsService.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<QuestReadDTO>> GetQuests(int skillid)
+		public ActionResult<IEnumerable<QuestReadDTO>> GetQuests()
 		{
-			if (!_skillRepository.Exists(skillid))
-				return NotFound();
-
-			var quests = _questRepository.GetAll(q => q.SkillId == skillid);
+			var quests = _questRepository.GetAll(q => !q.QuestHistories.Any(qh => qh.DateCompleted >= DateTime.Today.AddDays((int)q.Frequency)));
 
 			return Ok(_mapper.Map<IEnumerable<QuestReadDTO>>(quests));
 		}
 
 		[HttpGet("{id}", Name = "GetQuest")]
-		public ActionResult<QuestReadDTO> GetById(int skillid, int id)
+		public ActionResult<QuestReadDTO> GetQuest(int skillid, int id)
 		{
 			if (!_skillRepository.Exists(skillid))
 				return NotFound();
@@ -62,7 +59,21 @@ namespace QuestsService.Controllers
 
 			var questCreatedDTO = _mapper.Map<QuestReadDTO>(quest);
 
-			return CreatedAtRoute(nameof(GetById), new { skillid, id = questCreatedDTO.Id }, questCreatedDTO);
+			return CreatedAtRoute(nameof(GetQuest), new { skillid, id = questCreatedDTO.Id }, questCreatedDTO);
+		}
+
+		[HttpPost("{questId}")]
+		public ActionResult CompleteQuest(QuestHistoryCreateDTO questHistoryDTO)
+		{
+			if (!_questRepository.Exists(questHistoryDTO.QuestId))
+				return NotFound();
+
+			var questHistory = _mapper.Map<QuestHistory>(questHistoryDTO);
+
+			_questHistoryRepository.Create(questHistory);
+			_questHistoryRepository.SaveChanges();
+
+			return Ok();
 		}
 	}
 }

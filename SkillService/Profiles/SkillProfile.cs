@@ -11,6 +11,9 @@ namespace SkillService.Profiles
 			CreateMap<Skill, SkillReadDTO>();
 			CreateMap<SkillCreateDTO, Skill>();
 			CreateMap<SkillReadDTO, SkillPublishedDTO>();
+			CreateMap<Skill, SkillCardDTO>()
+				.ForMember(dest => dest.CurrentLevel, map => map.MapFrom(src => src.Level.Level))
+				.ForMember(dest => dest.ExpToNextLevel, map => map.MapFrom(src => src.Level.ExpToNextLevel));
 		}
 	}
 }

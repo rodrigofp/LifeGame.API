@@ -9,6 +9,8 @@
 
 		public int SkillId { get; set; }
 		public Skill Skill { get; set; }
+
+		public IEnumerable<QuestHistory> QuestHistories { get; set; }
 	}
 
 	public enum Frequency
